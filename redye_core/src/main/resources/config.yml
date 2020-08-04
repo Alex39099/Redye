@@ -1,0 +1,46 @@
+# Redye by Alex_qp
+# This plugin provides crafting recipes for redying.
+# Please leave a review after a while to help me improve my plugins!
+
+# Set the amount of items you can redye with one piece of dye. Set to 0 to disable.
+enabled_recipes:
+  terracotta: 8
+  glazed_terracotta: 8
+  glass: 8
+  glass_pane: 8
+  concrete: 8
+  concrete_powder: 8
+  wool: 1
+  carpet: 8
+
+recipe_book_options:
+  add_recipes_on_login: true
+  remove_recipes_on_logout: false
+  group_recipes_with_vanilla: true
+
+# Options regarding undying.
+undye:
+  # Options regarding undying by recipes.
+  recipes:
+    # The material in the middle to for example undye colored terracotta. For a list of all available materials please visit https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html but do NOT consider deprecated materials!
+    neutral_material: ICE
+    # Which materials should be undyeable with the neutral_material?
+    enable:
+      terracotta: false
+      glass: false
+      glass_pane: false
+  cauldron:
+    # Which materials should be undyeable by throwing them into a cauldron?
+    enable:
+      terracotta: true
+      glass: true
+      glass_pane: true
+    # check_empty checks the waterlevel of a cauldron.
+    ## If set to 0: players will be able to undye items in any cauldron.
+    ## If set to 1: players will be able to undye items in non empty cauldrons.
+    ## If set to 2: players will be able to undye items in cauldron with higher or equal waterlevel than needed for one undying (change_waterlevel)
+    check_empty: 1
+    # How much should the waterlevel get reduced if a player undyes items in the cauldron? (the amount of items is unnecessary) Note: A full cauldron has waterlevel 3.
+    change_waterlevel: 1
+    # This is just for compatibility reasons with other plugins. If set to true other plugins will get notified (CauldronLevelChangeEvent) of waterlevel changes with unknown reason.
+    call_event: false
