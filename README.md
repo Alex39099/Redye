@@ -10,6 +10,8 @@ Information
 ------------
 [Redye](https://www.spigotmc.org/resources/redye-1-13-x-1-16-x.59446/) is a Minecraft plugin developed by [Alex_qp](https://www.spigotmc.org/resources/authors/alex_qp.306806/). Its first release was on Aug 4, 2018 and was constantly improved and updated since then. On Aug 4, 2019 the source code was published under the GNU General Public License v3.0.
 
+Releases will only be marked on Spigot.
+
 Source
 ------
 Source code is currently available on [GitHub](https://github.com/Alex39099/Redye). Please respect the license.
