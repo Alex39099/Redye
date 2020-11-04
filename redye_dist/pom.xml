@@ -31,19 +31,10 @@
                             <artifactSet>
                                 <includes>
                                     <include>me.alexqp:redye-*</include>
-                                    <include>org.jetbrains:annotations</include>
                                     <include>com.github.Alex39099.Commons:commons-dist</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
-                                <relocation>
-                                    <pattern>org.jetbrains</pattern>
-                                    <shadedPattern>com.github.alexqp.${project.parent.name}.jetbrains.jetbrains</shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.intellij</pattern>
-                                    <shadedPattern>com.github.alexqp.${project.parent.name}.jetbrains.intellij</shadedPattern>
-                                </relocation>
                                 <relocation>
                                     <pattern>com.github.alexqp.commons</pattern>
                                     <shadedPattern>com.github.alexqp.${project.parent.name}.commons</shadedPattern>
