@@ -156,7 +156,9 @@ public class InternalsProvider {
 
         ShapelessRecipe recipe = new ShapelessRecipe(key, result);
         recipe.addIngredient(neutralDyeMat); // dye
-        recipe.addIngredient(new RecipeChoice.MaterialChoice(this.getColorMaterials(matName)));
+        for (int i = 0; i < input; i++) {
+            recipe.addIngredient(new RecipeChoice.MaterialChoice(this.getColorMaterials(matName)));
+        }
         recipe.setGroup(groupName);
 
         Bukkit.addRecipe(recipe);
