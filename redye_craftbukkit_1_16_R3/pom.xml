@@ -23,7 +23,7 @@
     <parent>
         <artifactId>redye-parent</artifactId>
         <groupId>me.alexqp</groupId>
-        <version>2.5.3</version>
+        <version>2.6.0</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
