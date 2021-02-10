@@ -87,11 +87,10 @@ public class CauldronThrowListener implements Listener {
     @EventHandler
     public void onItemDrop(PlayerDropItemEvent e) {
         String dropItemType = e.getItemDrop().getItemStack().getType().name();
-        String dropItemTypeNoColor = dropItemType.substring(dropItemType.indexOf("_") + 1);
 
         for (RedyeMaterial redyeMaterial : enabledMaterials) {
 
-            if (redyeMaterial.getColorMatName().equals(dropItemTypeNoColor)) {
+            if (dropItemType.endsWith(redyeMaterial.getColorMatName())) {
 
                 ItemStack undyedItem = new ItemStack(e.getItemDrop().getItemStack());
                 if (redyeMaterial.hasUndyeMatName()) {
