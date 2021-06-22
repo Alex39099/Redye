@@ -27,23 +27,9 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>redye-core</artifactId>
+    <artifactId>redye-craftbukkit_1_17_R1</artifactId>
     <version>${project.parent.version}</version>
     <packaging>jar</packaging>
-
-    <build>
-        <resources>
-            <resource>
-                <targetPath>.</targetPath>
-                <filtering>true</filtering>
-                <directory>${basedir}/src/main/resources/</directory>
-                <includes>
-                    <include>plugin.yml</include>
-                    <include>config.yml</include>
-                </includes>
-            </resource>
-        </resources>
-    </build>
 
     <dependencies>
         <dependency>
@@ -53,10 +39,9 @@
             <scope>provided</scope>
         </dependency>
         <dependency>
-            <groupId>com.github.Alex39099</groupId>
-            <artifactId>Commons</artifactId>
-            <version>v1.8.2</version>
-            <scope>compile</scope>
+            <groupId>me.alexqp</groupId>
+            <artifactId>redye-core</artifactId>
+            <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
 </project>
