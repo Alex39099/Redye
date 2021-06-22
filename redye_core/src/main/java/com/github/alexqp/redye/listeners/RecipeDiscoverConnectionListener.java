@@ -31,10 +31,10 @@ import java.util.HashSet;
 
 public class RecipeDiscoverConnectionListener implements Listener {
 
-    private JavaPlugin plugin;
-    private HashSet<HashSet<NamespacedKey>> allKeys;
+    private final JavaPlugin plugin;
+    private final HashSet<HashSet<NamespacedKey>> allKeys;
 
-    private boolean logout;
+    private final boolean logout;
 
     public RecipeDiscoverConnectionListener(JavaPlugin plugin, HashSet<HashSet<NamespacedKey>> allKeys, boolean logout) {
         this.plugin = plugin;

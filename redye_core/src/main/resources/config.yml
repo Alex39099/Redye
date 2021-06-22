@@ -42,5 +42,3 @@ undye:
     check_empty: 1
     # How much should the waterlevel get reduced if a player undyes items in the cauldron? (the amount of items is unnecessary) Note: A full cauldron has waterlevel 3.
     change_waterlevel: 1
-    # This is just for compatibility reasons with other plugins. If set to true other plugins will get notified (CauldronLevelChangeEvent) of waterlevel changes with unknown reason.
-    call_event: false

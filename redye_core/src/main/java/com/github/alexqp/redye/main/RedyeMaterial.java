@@ -20,8 +20,8 @@ package com.github.alexqp.redye.main;
 
 public class RedyeMaterial {
 
-    private String configName;
-    private String colorMatName;
+    private final String configName;
+    private final String colorMatName;
     private String undyeMatName = "";
     private int input;
     private String vanillaGroupName;

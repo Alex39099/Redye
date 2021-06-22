@@ -62,26 +62,23 @@ public class CauldronThrowListener implements Listener {
 
                 int checkEmpty = configChecker.checkInt(rootSection, "check_empty", ConsoleErrorType.WARN, 1, Range.closed(0, 2));
                 int changeWater = configChecker.checkInt(rootSection, "change_waterlevel", ConsoleErrorType.WARN, 1, Range.closed(0, 3));
-                boolean throwEvent = configChecker.checkBoolean(rootSection, "call_event", ConsoleErrorType.WARN, false);
 
-                return new CauldronThrowListener(plugin, enabledMaterials, checkEmpty, changeWater, throwEvent);
+                return new CauldronThrowListener(plugin, enabledMaterials, checkEmpty, changeWater);
             }
         }
         return null;
     }
 
-    private JavaPlugin plugin;
-    private Set<RedyeMaterial> enabledMaterials;
-    private int checkEmpty;
-    private int changeWater;
-    private boolean throwEvent;
+    private final JavaPlugin plugin;
+    private final Set<RedyeMaterial> enabledMaterials;
+    private final int checkEmpty;
+    private final int changeWater;
 
-    private CauldronThrowListener(JavaPlugin plugin, Set<RedyeMaterial> enabledMaterials, int checkEmpty, int changeWater, boolean throwEvent) {
+    private CauldronThrowListener(JavaPlugin plugin, Set<RedyeMaterial> enabledMaterials, int checkEmpty, int changeWater) {
         this.plugin = plugin;
         this.enabledMaterials = enabledMaterials;
         this.checkEmpty = checkEmpty;
         this.changeWater = changeWater;
-        this.throwEvent = throwEvent;
     }
 
     @EventHandler
@@ -120,15 +117,6 @@ public class CauldronThrowListener implements Listener {
                             }
 
                             int newWater = Math.max(0, oldWater - changeWater);
-
-                            if (throwEvent) {
-                                CauldronLevelChangeEvent cauldronEvent = new CauldronLevelChangeEvent(cauldron, e.getPlayer(), CauldronLevelChangeEvent.ChangeReason.UNKNOWN, oldWater, newWater);
-                                Bukkit.getPluginManager().callEvent(cauldronEvent);
-                                if (cauldronEvent.isCancelled()) {
-                                    ConsoleMessage.debug(getClass(), plugin, "CauldronLevelChangeEvent got cancelled by another plugin.");
-                                    return;
-                                }
-                            }
 
                             cauldronData.setLevel(newWater);
                             cauldron.setBlockData(cauldronData);
