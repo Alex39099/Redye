@@ -42,3 +42,5 @@ undye:
     check_empty: 1
     # How much should the waterlevel get reduced if a player undyes items in the cauldron? (the amount of items is unnecessary) Note: A full cauldron has waterlevel 3.
     change_waterlevel: 1
+    # maximum amount of items that can be transformed per usage.
+    max_stack_size: 64

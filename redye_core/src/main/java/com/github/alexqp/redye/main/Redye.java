@@ -20,7 +20,7 @@ package com.github.alexqp.redye.main;
 
 import com.github.alexqp.commons.bstats.Metrics;
 import com.github.alexqp.commons.messages.ConsoleMessage;
-import com.github.alexqp.redye.listeners.CauldronThrowListener;
+import com.github.alexqp.redye.listeners.CauldronItemDropListener;
 import com.google.common.collect.Range;
 import com.github.alexqp.commons.config.ConfigChecker;
 import com.github.alexqp.commons.config.ConsoleErrorType;
@@ -36,11 +36,6 @@ import java.util.HashSet;
 import java.util.logging.Level;
 
 public class Redye extends JavaPlugin implements Debugable {
-
-    /*
-     * Changelog v2.5.1
-     * update to MC 1.16.X
-     */
 
     @Override
     public boolean getDebug() {
@@ -143,9 +138,9 @@ public class Redye extends JavaPlugin implements Debugable {
                 }
             }
 
-            CauldronThrowListener cauldronThrowListener = CauldronThrowListener.build(this, internals, undyeRootSection);
-            if (cauldronThrowListener != null) {
-                Bukkit.getPluginManager().registerEvents(cauldronThrowListener, this);
+            CauldronItemDropListener cauldronItemDropListener = CauldronItemDropListener.build(this, internals, undyeRootSection);
+            if (cauldronItemDropListener != null) {
+                Bukkit.getPluginManager().registerEvents(cauldronItemDropListener, this);
                 ConsoleMessage.debug((Debugable) this, "registered ItemThrowListener");
             }
         }

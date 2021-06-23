@@ -22,6 +22,7 @@ import com.github.alexqp.commons.messages.ConsoleMessage;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
+import org.bukkit.block.Block;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapelessRecipe;
@@ -164,5 +165,18 @@ public class InternalsProvider {
         Bukkit.addRecipe(recipe);
         keys.add(key);
         return keys;
+    }
+
+    public Material getWaterCauldron() {
+        return Material.WATER_CAULDRON;
+    }
+
+    /**
+     * Empties a cauldron block.
+     * <p>Note: Action may take place even tho block is no cauldron.</p>
+     * @param cauldron cauldron block.
+     */
+    public void emptyCauldron(@NotNull Block cauldron) {
+        cauldron.setType(Material.CAULDRON);
     }
 }
