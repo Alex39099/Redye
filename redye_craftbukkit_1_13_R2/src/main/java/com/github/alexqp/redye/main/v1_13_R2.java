@@ -19,6 +19,10 @@
 package com.github.alexqp.redye.main;
 
 import org.bukkit.Material;
+import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.Levelled;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -57,5 +61,19 @@ public class v1_13_R2 extends InternalsProvider {
         redyeMats.add(new RedyeMaterial("concrete_powder", "CONCRETE_POWDER", 8, "concrete_powder"));
         redyeMats.add(new RedyeMaterial("wool", "WOOL", 1, "wool"));
         redyeMats.add(new RedyeMaterial("carpet", "CARPET", 8, "carpet"));
+    }
+
+    @Override
+    public Material getWaterCauldron() {
+        return Material.CAULDRON;
+    }
+
+    @Override
+    public void emptyCauldron(@NotNull Block cauldron) {
+        BlockData cauldronData = cauldron.getBlockData();
+        if (cauldronData instanceof Levelled) {
+            ((Levelled) cauldronData).setLevel(0);
+            cauldron.setBlockData(cauldronData);
+        }
     }
 }
