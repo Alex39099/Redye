@@ -18,7 +18,7 @@
 
 package com.github.alexqp.redye.main;
 
-import com.github.alexqp.commons.bstats.Metrics;
+import com.github.alexqp.commons.bstats.bukkit.Metrics;
 import com.github.alexqp.commons.messages.ConsoleMessage;
 import com.github.alexqp.redye.listeners.CauldronItemDropListener;
 import com.google.common.collect.Range;
@@ -32,6 +32,7 @@ import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.github.alexqp.redye.listeners.RecipeDiscoverConnectionListener;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.logging.Level;
 
@@ -47,8 +48,8 @@ public class Redye extends JavaPlugin implements Debugable {
         try {
             String packageName = Redye.class.getPackage().getName();
             String internalsName = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-            internals = (InternalsProvider) Class.forName(packageName + "." + internalsName).newInstance();
-        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | ClassCastException exception) {
+            internals = (InternalsProvider) Class.forName(packageName + "." + internalsName).getDeclaredConstructor().newInstance();
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | ClassCastException | NoSuchMethodException | InvocationTargetException exception) {
             Bukkit.getLogger().log(Level.SEVERE, "Redye could not find a valid implementation for this server version.");
             internals = new InternalsProvider();
         }
