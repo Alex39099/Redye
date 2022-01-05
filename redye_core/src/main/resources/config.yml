@@ -18,7 +18,7 @@ recipe_book_options:
   remove_recipes_on_logout: false
   group_recipes_with_vanilla: true
 
-# Options regarding undying.
+# Options regarding undying. Undying will transform an item into its uncolored variant or if not existent to its white colored variant (e.g. BLUE_TERRACOTTA will be undyed to TERRACOTTA, BLUE_WOOL to WHITE_WOOL)
 undye:
   # Options regarding undying by recipes.
   recipes:
