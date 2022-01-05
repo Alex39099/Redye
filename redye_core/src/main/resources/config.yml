@@ -27,14 +27,24 @@ undye:
     # Which materials should be undyeable with the neutral_material?
     enable:
       terracotta: false
+      glazed_terracotta: false
       glass: false
       glass_pane: false
+      concrete: false
+      concrete_powder: false
+      wool: false
+      carpet: false
   cauldron:
     # Which materials should be undyeable by throwing them into a cauldron?
     enable:
       terracotta: true
+      glazed_terracotta: false
       glass: true
       glass_pane: true
+      concrete: false
+      concrete_powder: false
+      wool: false
+      carpet: false
     # check_empty checks the waterlevel of a cauldron.
     ## If set to 0: players will be able to undye items in any cauldron.
     ## If set to 1: players will be able to undye items in non empty cauldrons.

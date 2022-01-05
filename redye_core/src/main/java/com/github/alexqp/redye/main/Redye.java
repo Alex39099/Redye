@@ -36,6 +36,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.logging.Level;
 
+@SuppressWarnings("unused")
 public class Redye extends JavaPlugin implements Debugable {
 
     @Override
@@ -131,8 +132,13 @@ public class Redye extends JavaPlugin implements Debugable {
 
                     for (RedyeMaterial redyeMat : internals.getRedyeMaterials()) {
 
-                        if (redyeMat.hasUndyeMatName() && configChecker.checkBoolean(section, redyeMat.getConfigName(), ConsoleErrorType.WARN, false)) {
-                            allKeys.add(internals.addUndyeRecipes(this, redyeMat.getColorMatName(), neutralDyeMat, Material.valueOf(redyeMat.getUndyeMatName()), redyeMat.getInput(), redyeMat.getVanillaGroupName()));
+                        if (configChecker.checkBoolean(section, redyeMat.getConfigName(), ConsoleErrorType.WARN, false)) {
+                            String undyeMatName;
+                            if (redyeMat.hasUndyeMatName())
+                                undyeMatName = redyeMat.getUndyeMatName();
+                            else
+                                undyeMatName = "WHITE_" + redyeMat.getColorMatName();
+                            allKeys.add(internals.addUndyeRecipes(this, redyeMat.getColorMatName(), neutralDyeMat, Material.valueOf(undyeMatName), redyeMat.getInput(), redyeMat.getVanillaGroupName()));
                             ConsoleMessage.debug((Debugable) this, "added undyeMat recipes for " + redyeMat.getConfigName());
                         }
                     }

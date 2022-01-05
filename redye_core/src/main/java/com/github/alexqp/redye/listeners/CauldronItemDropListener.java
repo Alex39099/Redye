@@ -56,8 +56,7 @@ public class CauldronItemDropListener implements Listener {
 
                 Set<RedyeMaterial> enabledMaterials = new HashSet<>();
                 for (RedyeMaterial redyeMat : internals.getRedyeMaterials()) {
-
-                    if (redyeMat.hasUndyeMatName() && configChecker.checkBoolean(section, redyeMat.getConfigName(), ConsoleErrorType.WARN, true)) {
+                    if (configChecker.checkBoolean(section, redyeMat.getConfigName(), ConsoleErrorType.WARN, false)) {
                         enabledMaterials.add(redyeMat);
                         ConsoleMessage.debug(CauldronItemDropListener.class, plugin, "prepared redyeMat " + redyeMat.getConfigName() + " to enable cauldron mechanic");
                     }
@@ -98,8 +97,7 @@ public class CauldronItemDropListener implements Listener {
                 if (redyeMaterial.hasUndyeMatName()) {
                     return Material.valueOf(redyeMaterial.getUndyeMatName());
                 } else {
-                    ConsoleMessage.debug(this.getClass(), plugin, "The RedyeMaterial " + redyeMaterial.getConfigName() + " has no undyeMaterialName for " + itemType);
-                    return null;
+                    return Material.valueOf("WHITE_" + redyeMaterial.getColorMatName());
                 }
             }
         }
