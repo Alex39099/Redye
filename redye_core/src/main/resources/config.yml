@@ -3,7 +3,7 @@
 # Please leave a review after a while to help me improve my plugins!
 
 # Set the amount of items you can redye with one piece of dye. Set to 0 to disable.
-enabled_recipes:
+color_recipes:
   terracotta: 8
   glazed_terracotta: 8
   glass: 8

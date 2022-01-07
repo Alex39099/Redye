@@ -114,7 +114,7 @@ public class Redye extends JavaPlugin implements Debugable {
 
     private Set<HashSet<NamespacedKey>> checkColorRecipes(@NotNull ConfigChecker configChecker, boolean recipeGroupVanilla) {
         HashSet<HashSet<NamespacedKey>> addedKeys = new HashSet<>();
-        ConfigurationSection section = configChecker.checkConfigSection(this.getConfig(), "enabled_recipes", ConsoleErrorType.ERROR);
+        ConfigurationSection section = configChecker.checkConfigSection(this.getConfig(), "color_recipes", ConsoleErrorType.ERROR);
         for (RedyeMaterial redyeMat : this.getEnabledRedyeMaterials(configChecker, section, 8)) {
             if (!recipeGroupVanilla) {
                 redyeMat.setVanillaGroupName("redye_" + redyeMat.getVanillaGroupName());
