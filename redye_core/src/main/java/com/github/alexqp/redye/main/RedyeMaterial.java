@@ -22,10 +22,10 @@ public class RedyeMaterial {
 
     private final String configName;
     private final String colorMatName;
-    private String undyeMatName = "";
+    private String undyeMatName = ""; // What is the undyed variant of the material type? (e.g. GLASS for colorMatName STAINED_GLASS)
     private int input;
     private String vanillaGroupName;
-    private boolean isUndyeable = false; // Can you dye the not dyed material normally?
+    private boolean isUndyeable = false; // Can you dye the undyed variant of the material type normally?
 
 
     public RedyeMaterial(String configName, String colorMatName, String undyeMatName, int input, String vanillaGroupName, boolean isUndyeable) {
@@ -79,5 +79,9 @@ public class RedyeMaterial {
 
     public boolean hasUndyeMatName() {
         return !this.getUndyeMatName().equals("");
+    }
+
+    public RedyeMaterial copy() {
+        return new RedyeMaterial(configName, colorMatName, undyeMatName, input, vanillaGroupName, isUndyeable);
     }
 }

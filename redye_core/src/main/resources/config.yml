@@ -12,39 +12,46 @@ enabled_recipes:
   concrete_powder: 8
   wool: 1
   carpet: 8
+  banner: 1
+  candle: 1
 
 recipe_book_options:
   add_recipes_on_login: true
   remove_recipes_on_logout: false
   group_recipes_with_vanilla: true
 
-# Options regarding undying. Undying will transform an item into its uncolored variant or if not existent to its white colored variant (e.g. BLUE_TERRACOTTA will be undyed to TERRACOTTA, BLUE_WOOL to WHITE_WOOL)
-undye:
-  # Options regarding undying by recipes.
+# Options regarding bleaching. Bleaching will transform an item into its uncolored variant or if not existent to its white colored variant (e.g. BLUE_TERRACOTTA will be undyed to TERRACOTTA, BLUE_WOOL to WHITE_WOOL)
+bleaching:
+  # Options regarding bleaching by recipes.
   recipes:
     # The material in the middle to for example undye colored terracotta. For a list of all available materials please visit https://hub.spigotmc.org/javadocs/spigot/org/bukkit/Material.html but do NOT consider deprecated materials!
     neutral_material: ICE
-    # Which materials should be undyeable with the neutral_material?
+    # Set the amount of items that can be bleached with one piece of neutral_material. Set to 0 to disable.
     enable:
-      terracotta: false
-      glazed_terracotta: false
-      glass: false
-      glass_pane: false
-      concrete: false
-      concrete_powder: false
-      wool: false
-      carpet: false
+      terracotta: 0
+      glazed_terracotta: 0
+      glass: 0
+      glass_pane: 0
+      concrete: 0
+      concrete_powder: 0
+      wool: 0
+      carpet: 0
+      banner: 0
+      candle: 0
   cauldron:
-    # Which materials should be undyeable by throwing them into a cauldron?
+    # Set the maximum amount of items that can be bleached at once by throwing them into a cauldron (smaller stacks will also be possible). Set to 0 to disable.
+    ## Please note that the maximum amount will be bounded by the stack size of the material type (e.g. a maximum of 16 banners can be bleached at once)!
     enable:
-      terracotta: true
-      glazed_terracotta: false
-      glass: true
-      glass_pane: true
-      concrete: false
-      concrete_powder: false
-      wool: false
-      carpet: false
+      terracotta: 64
+      glazed_terracotta: 0
+      glass: 64
+      glass_pane: 64
+      concrete: 0
+      concrete_powder: 0
+      wool: 0
+      carpet: 0
+      banner: 0
+      candle: 64
     # check_empty checks the waterlevel of a cauldron.
     ## If set to 0: players will be able to undye items in any cauldron.
     ## If set to 1: players will be able to undye items in non empty cauldrons.
@@ -52,5 +59,3 @@ undye:
     check_empty: 1
     # How much should the waterlevel get reduced if a player undyes items in the cauldron? (the amount of items is unnecessary) Note: A full cauldron has waterlevel 3.
     change_waterlevel: 1
-    # maximum amount of items that can be transformed per usage.
-    max_stack_size: 64

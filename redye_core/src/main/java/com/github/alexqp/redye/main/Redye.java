@@ -31,9 +31,12 @@ import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.plugin.java.JavaPlugin;
 import com.github.alexqp.redye.listeners.RecipeDiscoverConnectionListener;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 
 @SuppressWarnings("unused")
@@ -56,10 +59,9 @@ public class Redye extends JavaPlugin implements Debugable {
         }
     }
 
-    private final HashSet<RedyeMaterial> redyeMats = internals.getRedyeMaterials();
+    private final HashSet<RedyeMaterial> redyeMats = internals.getDefaultRedyeMaterials();
     private final String[] recipeBookSectionConfigNames = {"recipe_book_options",
             "add_recipes_on_login", "remove_recipes_on_logout", "group_recipes_with_vanilla"};
-
     @Override
     public void onEnable() {
         new Metrics(this);
@@ -85,77 +87,88 @@ public class Redye extends JavaPlugin implements Debugable {
         // DYE RECIPES
         // ------------------------------------------------------------------
 
-        HashSet<HashSet<NamespacedKey>> allKeys = new HashSet<>();
-
-        section = configChecker.checkConfigSection(this.getConfig(), "enabled_recipes", ConsoleErrorType.ERROR);
-        if (section != null) {
-
-            for (RedyeMaterial redyeMat : new HashSet<>(redyeMats)) {
-                redyeMat.setInput(configChecker.checkInt(section, redyeMat.getConfigName(), ConsoleErrorType.WARN, redyeMat.getInput(), Range.closed(0, 8)));
-
-                if (!recipeGroupVanilla) {
-                    redyeMat.setVanillaGroupName("redye_" + redyeMat.getVanillaGroupName());
-                }
-
-                if (redyeMat.getInput() < 1)
-                    continue;
-
-                allKeys.add(internals.addColorRecipes(this, redyeMat));
-                ConsoleMessage.debug((Debugable) this, "added color recipes for " + redyeMat.getConfigName());
-
-                this.getLogger().info("added recipes for " + redyeMat.getConfigName() + " for amount " + redyeMat.getInput());
-            }
-        }
+        HashSet<HashSet<NamespacedKey>> allKeys = new HashSet<>(this.checkColorRecipes(configChecker, recipeGroupVanilla));
 
         // ------------------------------------------------------------------
         // UNDYE RECIPES / CAULDRON
         // ------------------------------------------------------------------
 
-        ConfigurationSection undyeRootSection = configChecker.checkConfigSection(this.getConfig(), "undye", ConsoleErrorType.ERROR);
+        ConfigurationSection undyeRootSection = configChecker.checkConfigSection(this.getConfig(), "bleaching", ConsoleErrorType.ERROR);
         if (undyeRootSection != null) {
-
-            section = configChecker.checkConfigSection(undyeRootSection, "recipes", ConsoleErrorType.ERROR);
-            if (section != null) {
-
-                String neutralMaterialConfigName = "neutral_material";
-                String matName = configChecker.checkString(section, neutralMaterialConfigName, ConsoleErrorType.WARN, "ICE");
-                assert matName != null;
-
-                Material neutralDyeMat = Material.matchMaterial(matName);
-                if (neutralDyeMat == null) {
-                    ConsoleMessage.send(ConsoleErrorType.WARN, this, neutralMaterialConfigName + "was not a valid material name. Used ICE instead.");
-                    neutralDyeMat = Material.ICE;
-                }
-
-                section = configChecker.checkConfigSection(section, "enable", ConsoleErrorType.ERROR);
-                if (section != null) {
-
-                    for (RedyeMaterial redyeMat : internals.getRedyeMaterials()) {
-
-                        if (configChecker.checkBoolean(section, redyeMat.getConfigName(), ConsoleErrorType.WARN, false)) {
-                            String undyeMatName;
-                            if (redyeMat.hasUndyeMatName())
-                                undyeMatName = redyeMat.getUndyeMatName();
-                            else
-                                undyeMatName = "WHITE_" + redyeMat.getColorMatName();
-                            allKeys.add(internals.addUndyeRecipes(this, redyeMat.getColorMatName(), neutralDyeMat, Material.valueOf(undyeMatName), redyeMat.getInput(), redyeMat.getVanillaGroupName()));
-                            ConsoleMessage.debug((Debugable) this, "added undyeMat recipes for " + redyeMat.getConfigName());
-                        }
-                    }
-                }
-            }
+            allKeys.addAll(this.checkUndyeRecipes(configChecker, undyeRootSection, recipeGroupVanilla));
 
             CauldronItemDropListener cauldronItemDropListener = CauldronItemDropListener.build(this, internals, undyeRootSection);
             if (cauldronItemDropListener != null) {
                 Bukkit.getPluginManager().registerEvents(cauldronItemDropListener, this);
-                ConsoleMessage.debug((Debugable) this, "registered ItemThrowListener");
+                this.getLogger().info("enabled cauldron bleaching for at least one item");
             }
         }
 
+        // ------------------------------------------------------------------
 
         if (recipeBookConnection[0]) {
             Bukkit.getServer().getPluginManager().registerEvents(new RecipeDiscoverConnectionListener(this, allKeys, recipeBookConnection[1]), this);
             ConsoleMessage.debug((Debugable) this, "registered RecipeDiscoverJoinListener");
         }
+    }
+
+    private Set<HashSet<NamespacedKey>> checkColorRecipes(@NotNull ConfigChecker configChecker, boolean recipeGroupVanilla) {
+        HashSet<HashSet<NamespacedKey>> addedKeys = new HashSet<>();
+        ConfigurationSection section = configChecker.checkConfigSection(this.getConfig(), "enabled_recipes", ConsoleErrorType.ERROR);
+        for (RedyeMaterial redyeMat : this.getEnabledRedyeMaterials(configChecker, section, 8)) {
+            if (!recipeGroupVanilla) {
+                redyeMat.setVanillaGroupName("redye_" + redyeMat.getVanillaGroupName());
+            }
+            addedKeys.add(internals.addColorRecipes(this, redyeMat));
+            ConsoleMessage.debug((Debugable) this, "added color recipes for " + redyeMat.getConfigName());
+            this.getLogger().info("added color recipes for " + redyeMat.getConfigName() + " with amount " + redyeMat.getInput());
+        }
+        return addedKeys;
+    }
+
+    private Set<HashSet<NamespacedKey>> checkUndyeRecipes(@NotNull ConfigChecker configChecker, @NotNull ConfigurationSection undyeRootSection, boolean recipeGroupVanilla) {
+        HashSet<HashSet<NamespacedKey>> addedKeys = new HashSet<>();
+
+        ConfigurationSection undyeRecipeSection = configChecker.checkConfigSection(undyeRootSection, "recipes", ConsoleErrorType.ERROR);
+        if (undyeRecipeSection == null)
+            return addedKeys;
+
+        String neutralMaterialConfigName = "neutral_material";
+        String matName = configChecker.checkString(undyeRecipeSection, neutralMaterialConfigName, ConsoleErrorType.WARN, "ICE");
+        assert matName != null;
+
+        Material neutralDyeMat = Material.matchMaterial(matName);
+        if (neutralDyeMat == null) {
+            ConsoleMessage.send(ConsoleErrorType.WARN, this, neutralMaterialConfigName + "was not a valid material name. Used ICE instead.");
+            neutralDyeMat = Material.ICE;
+        }
+
+        ConfigurationSection section = configChecker.checkConfigSection(undyeRecipeSection, "enable", ConsoleErrorType.ERROR);
+        for (RedyeMaterial redyeMat : this.getEnabledRedyeMaterials(configChecker, section, 8)) {
+            String undyeMatName;
+            if (redyeMat.hasUndyeMatName())
+                undyeMatName = redyeMat.getUndyeMatName();
+            else
+                undyeMatName = "WHITE_" + redyeMat.getColorMatName();
+            if (!recipeGroupVanilla) {
+                redyeMat.setVanillaGroupName("redye_" + redyeMat.getVanillaGroupName());
+            }
+            addedKeys.add(internals.addUndyeRecipes(this, redyeMat.getColorMatName(), neutralDyeMat, Material.valueOf(undyeMatName), redyeMat.getInput(), redyeMat.getVanillaGroupName()));
+            this.getLogger().info("added undye recipes for " + redyeMat.getConfigName() + " with amount " + redyeMat.getInput());
+        }
+        return addedKeys;
+    }
+
+    @NotNull
+    public Set<RedyeMaterial> getEnabledRedyeMaterials(@NotNull ConfigChecker configChecker, @Nullable ConfigurationSection section, int maxInput) {
+        HashSet<RedyeMaterial> enabledMaterials = new HashSet<>();
+        if (section != null) {
+            for (RedyeMaterial redyeMat : new HashSet<>(internals.getDefaultRedyeMaterials())) {
+                redyeMat.setInput(configChecker.checkInt(section, redyeMat.getConfigName(), ConsoleErrorType.WARN, redyeMat.getInput(), Range.closed(0, maxInput)));
+                if (redyeMat.getInput() > 0)
+                    enabledMaterials.add(redyeMat);
+            }
+        }
+        return enabledMaterials;
     }
 }

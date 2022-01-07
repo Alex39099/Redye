@@ -73,13 +73,25 @@ public class InternalsProvider {
         redyeMats.add(new RedyeMaterial("concrete_powder", "CONCRETE_POWDER", 8, "concrete_powder"));
         redyeMats.add(new RedyeMaterial("wool", "WOOL", 1, "wool"));
         redyeMats.add(new RedyeMaterial("carpet", "CARPET", 8, "carpet"));
+        redyeMats.add(new RedyeMaterial("banner", "BANNER", 1, "banner")); // not really vanillaGroupName!
+        redyeMats.add(new RedyeMaterial("candle", "CANDLE", "CANDLE", 1, "candle"));
     }
 
     Map<String, Material> getColorMap() {
         return new HashMap<>(this.colorMap);
     }
-    public HashSet<RedyeMaterial> getRedyeMaterials() {
-        return new HashSet<>(this.redyeMats);
+
+    /**
+     * Get a deep copy of the default redye materials.
+     * @return a deep copy of the default redye materials
+     */
+    @NotNull
+    public HashSet<RedyeMaterial> getDefaultRedyeMaterials() {
+        HashSet<RedyeMaterial> materials = new HashSet<>();
+        for (RedyeMaterial redyeMaterial : redyeMats) {
+            materials.add(redyeMaterial.copy());
+        }
+        return materials;
     }
 
     private @NotNull List<Material> getColorMaterials(@NotNull String matName) {

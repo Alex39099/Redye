@@ -22,6 +22,7 @@ import com.github.alexqp.commons.config.ConfigChecker;
 import com.github.alexqp.commons.config.ConsoleErrorType;
 import com.github.alexqp.commons.messages.ConsoleMessage;
 import com.github.alexqp.redye.main.InternalsProvider;
+import com.github.alexqp.redye.main.Redye;
 import com.github.alexqp.redye.main.RedyeMaterial;
 import com.google.common.collect.Range;
 import org.bukkit.Material;
@@ -37,36 +38,29 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scheduler.BukkitRunnable;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
 
 public class CauldronItemDropListener implements Listener {
 
     @Nullable
-    public static CauldronItemDropListener build(JavaPlugin plugin, InternalsProvider internals, ConfigurationSection rootSection) {
+    public static CauldronItemDropListener build(Redye plugin, InternalsProvider internals, ConfigurationSection rootSection) {
         ConfigChecker configChecker = new ConfigChecker(plugin);
         rootSection = configChecker.checkConfigSection(rootSection, "cauldron", ConsoleErrorType.ERROR);
         if (rootSection != null) {
             ConfigurationSection section = configChecker.checkConfigSection(rootSection, "enable", ConsoleErrorType.ERROR);
             if (section != null) {
 
-                Set<RedyeMaterial> enabledMaterials = new HashSet<>();
-                for (RedyeMaterial redyeMat : internals.getRedyeMaterials()) {
-                    if (configChecker.checkBoolean(section, redyeMat.getConfigName(), ConsoleErrorType.WARN, false)) {
-                        enabledMaterials.add(redyeMat);
-                        ConsoleMessage.debug(CauldronItemDropListener.class, plugin, "prepared redyeMat " + redyeMat.getConfigName() + " to enable cauldron mechanic");
-                    }
-                }
+                Set<RedyeMaterial> enabledMaterials = plugin.getEnabledRedyeMaterials(configChecker, section, 64);
 
                 int checkEmpty = configChecker.checkInt(rootSection, "check_empty", ConsoleErrorType.WARN, 1, Range.closed(0, 2));
                 int changeWater = configChecker.checkInt(rootSection, "change_waterlevel", ConsoleErrorType.WARN, 1, Range.closed(0, 3));
-                int maxStackSize = configChecker.checkInt(rootSection, "max_stack_size", ConsoleErrorType.WARN, 64, Range.closed(1, 64));
 
-                return new CauldronItemDropListener(plugin, internals, enabledMaterials, checkEmpty, changeWater, maxStackSize);
+                return new CauldronItemDropListener(plugin, internals, enabledMaterials, checkEmpty, changeWater);
             }
         }
         return null;
@@ -77,49 +71,56 @@ public class CauldronItemDropListener implements Listener {
     private final Set<RedyeMaterial> enabledMaterials;
     private final int checkEmpty;
     private final int changeWater;
-    private final int maxStackSize;
 
     private final HashMap<Item, BukkitRunnable> cauldronDrops = new HashMap<>();
 
-    private CauldronItemDropListener(JavaPlugin plugin, InternalsProvider internals, Set<RedyeMaterial> enabledMaterials, int checkEmpty, int changeWater, int maxStackSize) {
+    private CauldronItemDropListener(JavaPlugin plugin, InternalsProvider internals, Set<RedyeMaterial> enabledMaterials, int checkEmpty, int changeWater) {
         this.plugin = plugin;
         this.internals = internals;
         this.enabledMaterials = enabledMaterials;
         this.checkEmpty = checkEmpty;
         this.changeWater = changeWater;
-        this.maxStackSize = maxStackSize;
     }
 
     @Nullable
-    private Material getUndyeMaterialByItemType(String itemType) {
+    private RedyeMaterial getEnabledMaterialByType(String itemType) {
         for (RedyeMaterial redyeMaterial : enabledMaterials) {
             if (itemType.endsWith(redyeMaterial.getColorMatName())) {
-                if (redyeMaterial.hasUndyeMatName()) {
-                    return Material.valueOf(redyeMaterial.getUndyeMatName());
-                } else {
-                    return Material.valueOf("WHITE_" + redyeMaterial.getColorMatName());
-                }
+                return redyeMaterial;
             }
         }
         ConsoleMessage.debug(this.getClass(), plugin, "Could not find RedyeMaterial for " + itemType);
         return null;
     }
 
-    @EventHandler(ignoreCancelled = true)
-    public void onItemDrop(PlayerDropItemEvent e) {
-        this.initiateTransformation(e.getItemDrop(), this.getUndyeMaterialByItemType(e.getItemDrop().getItemStack().getType().name()));
+    @NotNull
+    private Material getUndyeMaterial(RedyeMaterial redyeMaterial) {
+        if (redyeMaterial.hasUndyeMatName()) {
+            return Material.valueOf(redyeMaterial.getUndyeMatName());
+        } else {
+            return Material.valueOf("WHITE_" + redyeMaterial.getColorMatName());
+        }
     }
 
-    private void initiateTransformation(Item drop, Material undyeMaterial) {
-        if (undyeMaterial == null) {
-            ConsoleMessage.debug(CauldronItemDropListener.class, plugin, "Did not initiate transformation because of undyeMaterial == null.");
+    @EventHandler(ignoreCancelled = true)
+    public void onItemDrop(PlayerDropItemEvent e) {
+        this.initiateTransformation(e.getItemDrop(), this.getEnabledMaterialByType(e.getItemDrop().getItemStack().getType().name()));
+    }
+
+    private void initiateTransformation(Item drop, RedyeMaterial redyeMaterial) {
+        if (redyeMaterial == null) {
+            ConsoleMessage.debug(CauldronItemDropListener.class, plugin, "Did not initiate transformation because of redyeMaterial == null.");
             return;
         }
+
+        Material undyeMaterial = this.getUndyeMaterial(redyeMaterial);
 
         if (drop.getItemStack().getType().equals(undyeMaterial)) {
             ConsoleMessage.debug(CauldronItemDropListener.class, plugin, "Did not initiate transformation because of undyeMaterial == thrownMaterial.");
             return;
         }
+
+        int maxStackSize = redyeMaterial.getInput();
 
         BukkitRunnable task = new BukkitRunnable() {
             @Override
@@ -184,7 +185,7 @@ public class CauldronItemDropListener implements Listener {
     public void onDropMerge(ItemMergeEvent e) {
         boolean reschedule = this.cancelTransformation(e.getEntity());
         if (this.cancelTransformation(e.getTarget()) || reschedule) {
-            this.initiateTransformation(e.getTarget(), this.getUndyeMaterialByItemType(e.getTarget().getItemStack().getType().name()));
+            this.initiateTransformation(e.getTarget(), this.getEnabledMaterialByType(e.getTarget().getItemStack().getType().name()));
             ConsoleMessage.debug(this.getClass(), plugin, "Transformation was rescheduled because of itemMerge.");
         }
     }
