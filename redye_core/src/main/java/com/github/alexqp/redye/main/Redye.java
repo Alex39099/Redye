@@ -64,7 +64,7 @@ public class Redye extends JavaPlugin implements Debugable {
             "add_recipes_on_login", "remove_recipes_on_logout", "group_recipes_with_vanilla"};
     @Override
     public void onEnable() {
-        new Metrics(this);
+        new Metrics(this, 3023);
         this.saveDefaultConfig();
         this.getLogger().info("This plugin was made by alex_qp");
 
