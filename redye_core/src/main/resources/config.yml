@@ -59,3 +59,8 @@ bleaching:
     check_empty: 1
     # How much should the waterlevel get reduced if a player undyes items in the cauldron? (the amount of items is unnecessary) Note: A full cauldron has waterlevel 3.
     change_waterlevel: 1
+
+# Options regarding the updateChecker (by mfnalex (https://github.com/JEFF-Media-GbR/Spigot-UpdateChecker))
+updatechecker:
+  enable: true
+  notify_op_on_login: true
