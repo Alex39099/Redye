@@ -176,7 +176,7 @@ public class Redye extends JavaPlugin implements Debugable {
     }
 
     private void updateChecker() {
-        int spigotResourceID = 69257;
+        int spigotResourceID = 59446;
         ConfigChecker configChecker = new ConfigChecker(this);
         ConfigurationSection updateCheckerSection = configChecker.checkConfigSection(this.getConfig(), "updatechecker", ConsoleErrorType.ERROR);
         if (updateCheckerSection != null && configChecker.checkBoolean(updateCheckerSection, "enable", ConsoleErrorType.WARN, true)) {
@@ -187,7 +187,7 @@ public class Redye extends JavaPlugin implements Debugable {
                     .setChangelogLink("https://www.spigotmc.org/resources/" + spigotResourceID + "/updates")
                     .setDonationLink("https://paypal.me/alexqpplugins")
                     .setNotifyOpsOnJoin(configChecker.checkBoolean(updateCheckerSection, "notify_op_on_login", ConsoleErrorType.WARN, true))
-                    .setNotifyByPermissionOnJoin("biginv.updatechecker")
+                    .setNotifyByPermissionOnJoin("redye.updatechecker")
                     .checkEveryXHours(24).checkNow();
         }
     }

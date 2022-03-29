@@ -5,3 +5,8 @@ author: alexqp
 description: ${project.parent.description}
 api-version: "1.16"
 website: ${project.parent.url}
+
+permissions:
+  redye.updatechecker:
+    description: Get notified on login if a new update of the plugin exists.
+    default: false
