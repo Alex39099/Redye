@@ -24,7 +24,7 @@
 
     <groupId>me.alexqp</groupId>
     <artifactId>redye-parent</artifactId>
-    <version>3.1.0</version>
+    <version>3.2.0</version>
     <modules>
         <module>redye_core</module>
         <module>redye_craftbukkit_1_13_R1</module>
