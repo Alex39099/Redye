@@ -50,12 +50,17 @@
                                 <includes>
                                     <include>me.alexqp:redye-*</include>
                                     <include>com.github.Alex39099.Commons:commons-dist</include>
+                                    <include>com.jeff_media:SpigotUpdateChecker</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
                                 <relocation>
                                     <pattern>com.github.alexqp.commons</pattern>
                                     <shadedPattern>com.github.alexqp.${project.parent.name}.commons</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.jeff_media.updatechecker</pattern>
+                                    <shadedPattern>com.github.alexqp.${project.parent.name}.updatechecker</shadedPattern>
                                 </relocation>
                             </relocations>
                         </configuration>
@@ -114,6 +119,11 @@
         <dependency>
             <groupId>me.alexqp</groupId>
             <artifactId>redye-craftbukkit_1_18_R1</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>me.alexqp</groupId>
+            <artifactId>redye-craftbukkit_1_18_R2</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>
