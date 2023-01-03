@@ -58,7 +58,7 @@ public class Redye extends JavaPlugin implements Debugable {
             String packageName = Redye.class.getPackage().getName();
             String internalsName = getInternalsName(Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3]);
             if (internalsName.equals(defaultInternalsVersion)) {
-                Bukkit.getLogger().log(Level.INFO, "Redye is using the latest implementation (last tested for " + defaultInternalsVersion + ")");
+                Bukkit.getLogger().log(Level.INFO, "Redye is using the latest implementation (last tested for " + defaultInternalsVersion + ").");
                 internals = new InternalsProvider();
             } else {
                 internals = (InternalsProvider) Class.forName(packageName + "." + internalsName).getDeclaredConstructor().newInstance();
