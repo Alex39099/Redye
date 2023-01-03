@@ -27,18 +27,9 @@
     <version>3.3.0</version>
     <modules>
         <module>redye_core</module>
-        <module>redye_craftbukkit_1_13_R1</module>
         <module>redye_dist</module>
         <module>redye_craftbukkit_1_13_R2</module>
-        <module>redye_craftbukkit_1_14_R1</module>
-        <module>redye_craftbukkit_1_15_R1</module>
-        <module>redye_craftbukkit_1_16_R1</module>
-        <module>redye_craftbukkit_1_16_R2</module>
         <module>redye_craftbukkit_1_16_R3</module>
-        <module>redye_craftbukkit_1_17_R1</module>
-        <module>redye_craftbukkit_1_18_R1</module>
-        <module>redye_craftbukkit_1_18_R2</module>
-        <module>redye_craftbukkit_1_19_R1</module>
     </modules>
     <name>Redye</name>
     <url>https://www.spigotmc.org/members/alex_qp.306806/</url>

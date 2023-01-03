@@ -179,6 +179,7 @@ public class InternalsProvider {
         return keys;
     }
 
+    // this should get overwritten by version implementation
     public Material getWaterCauldron() {
         return Material.WATER_CAULDRON;
     }

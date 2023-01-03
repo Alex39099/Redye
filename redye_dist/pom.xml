@@ -78,57 +78,12 @@
         </dependency>
         <dependency>
             <groupId>me.alexqp</groupId>
-            <artifactId>redye-craftbukkit_1_13_R1</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>me.alexqp</groupId>
             <artifactId>redye-craftbukkit_1_13_R2</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
         <dependency>
             <groupId>me.alexqp</groupId>
-            <artifactId>redye-craftbukkit_1_14_R1</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>me.alexqp</groupId>
-            <artifactId>redye-craftbukkit_1_15_R1</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>me.alexqp</groupId>
-            <artifactId>redye-craftbukkit_1_16_R1</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>me.alexqp</groupId>
-            <artifactId>redye-craftbukkit_1_16_R2</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>me.alexqp</groupId>
             <artifactId>redye-craftbukkit_1_16_R3</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>me.alexqp</groupId>
-            <artifactId>redye-craftbukkit_1_17_R1</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>me.alexqp</groupId>
-            <artifactId>redye-craftbukkit_1_18_R1</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>me.alexqp</groupId>
-            <artifactId>redye-craftbukkit_1_18_R2</artifactId>
-            <version>${project.parent.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>me.alexqp</groupId>
-            <artifactId>redye-craftbukkit_1_19_R1</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
     </dependencies>

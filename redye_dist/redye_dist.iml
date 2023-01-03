@@ -16,8 +16,6 @@
     <orderEntry type="library" name="Maven: org.bstats:bstats-bukkit:1.5" level="project" />
     <orderEntry type="library" name="Maven: org.jetbrains:annotations:17.0.0" level="project" />
     <orderEntry type="library" name="Maven: com.github.Alex39099.Commons:commons-dist:bef72adeec" level="project" />
-    <orderEntry type="module" module-name="redye-craftbukkit_1_13_R1" />
     <orderEntry type="module" module-name="redye-craftbukkit_1_13_R2" />
-    <orderEntry type="module" module-name="redye-craftbukkit_1_14_R1" />
   </component>
 </module>
