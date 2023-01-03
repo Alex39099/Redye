@@ -37,7 +37,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.lang.reflect.InvocationTargetException;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
@@ -49,16 +51,36 @@ public class Redye extends JavaPlugin implements Debugable {
         return false;
     }
 
+    private static final String defaultInternalsVersion = "v1_19_R2";
     private static InternalsProvider internals;
     static {
         try {
             String packageName = Redye.class.getPackage().getName();
-            String internalsName = Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3];
-            internals = (InternalsProvider) Class.forName(packageName + "." + internalsName).getDeclaredConstructor().newInstance();
+            String internalsName = getInternalsName(Bukkit.getServer().getClass().getPackage().getName().split("\\.")[3]);
+            if (internalsName.equals(defaultInternalsVersion)) {
+                Bukkit.getLogger().log(Level.INFO, "Redye is using the latest implementation (last tested for " + defaultInternalsVersion + ")");
+                internals = new InternalsProvider();
+            } else {
+                internals = (InternalsProvider) Class.forName(packageName + "." + internalsName).getDeclaredConstructor().newInstance();
+            }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | ClassCastException | NoSuchMethodException | InvocationTargetException exception) {
-            Bukkit.getLogger().log(Level.SEVERE, "Redye could not find a valid implementation for this server version.");
+            Bukkit.getLogger().log(Level.SEVERE, "Redye could not find a valid implementation for this server version. Trying to use the latest implementation...");
             internals = new InternalsProvider();
         }
+    }
+
+    private static String getInternalsName(String internalsName) {
+        Map<String, String> internalsVersions = new HashMap<>();
+        internalsVersions.put("v1_13_R1", "v1_13_R2");
+        internalsVersions.put("v1_13_R2", "v1_13_R2");
+
+        internalsVersions.put("v1_14_R1", "v1_16_R3");
+        internalsVersions.put("v1_15_R1", "v1_16_R3");
+        internalsVersions.put("v1_16_R1", "v1_16_R3");
+        internalsVersions.put("v1_16_R2", "v1_16_R3");
+        internalsVersions.put("v1_16_R3", "v1_16_R3");
+
+        return internalsVersions.getOrDefault(internalsName, defaultInternalsVersion);
     }
 
     private final HashSet<RedyeMaterial> redyeMats = internals.getDefaultRedyeMaterials();
