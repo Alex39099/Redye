@@ -62,6 +62,7 @@ public class v1_16_R3 extends InternalsProvider {
         redyeMats.add(new RedyeMaterial("wool", "WOOL", 1, "wool"));
         redyeMats.add(new RedyeMaterial("carpet", "CARPET", 8, "carpet"));
         redyeMats.add(new RedyeMaterial("banner", "BANNER", 1, "banner")); // not really vanillaGroupName!
+        redyeMats.add(new RedyeMaterial("bed", "BED", 1, "bed"));
     }
 
     @Override

@@ -75,6 +75,7 @@ public class InternalsProvider {
         redyeMats.add(new RedyeMaterial("carpet", "CARPET", 8, "carpet"));
         redyeMats.add(new RedyeMaterial("banner", "BANNER", 1, "banner")); // not really vanillaGroupName!
         redyeMats.add(new RedyeMaterial("candle", "CANDLE", "CANDLE", 1, "candle"));
+        redyeMats.add(new RedyeMaterial("bed", "BED", 1, "bed"));
     }
 
     Map<String, Material> getColorMap() {

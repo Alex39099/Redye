@@ -46,12 +46,14 @@ import java.util.logging.Level;
 @SuppressWarnings("unused")
 public class Redye extends JavaPlugin implements Debugable {
 
+    // TODO remove VANILLA wool, carpet and bed recipes if disabled in config (1.20 onwards). Remove note in config then.
+
     @Override
     public boolean getDebug() {
         return false;
     }
 
-    private static final String defaultInternalsVersion = "v1_19_R2";
+    private static final String defaultInternalsVersion = "v1_20_R1";
     private static InternalsProvider internals;
     static {
         try {
@@ -61,10 +63,12 @@ public class Redye extends JavaPlugin implements Debugable {
                 Bukkit.getLogger().log(Level.INFO, "Redye is using the latest implementation (last tested for " + defaultInternalsVersion + ").");
                 internals = new InternalsProvider();
             } else {
+                Bukkit.getLogger().log(Level.INFO, "Redye is using the implementation for version " + internalsName + ".");
                 internals = (InternalsProvider) Class.forName(packageName + "." + internalsName).getDeclaredConstructor().newInstance();
             }
         } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | ClassCastException | NoSuchMethodException | InvocationTargetException exception) {
-            Bukkit.getLogger().log(Level.SEVERE, "Redye could not find a valid implementation for this server version. Trying to use the latest implementation...");
+            Bukkit.getLogger().log(Level.WARNING, "Redye could not find an updated implementation for this server version. " +
+                    "However the plugin is trying to use the latest implementation which should work if Minecraft did not change drastically (last tested version: " + defaultInternalsVersion + ").");
             internals = new InternalsProvider();
         }
     }

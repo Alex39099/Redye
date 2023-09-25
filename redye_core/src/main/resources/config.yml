@@ -3,6 +3,7 @@
 # Please leave a review after a while to help me improve my plugins!
 
 # Set the amount of items you can redye with one piece of dye. Set to 0 to disable.
+# Please note that universal dyeing of beds, carpets and wool was added in 1.20. The plugin will not remove those recipes.
 color_recipes:
   terracotta: 8
   glazed_terracotta: 8
@@ -14,6 +15,7 @@ color_recipes:
   carpet: 8
   banner: 1
   candle: 1
+  bed: 1
 
 recipe_book_options:
   add_recipes_on_login: true
@@ -38,6 +40,7 @@ bleaching:
       carpet: 0
       banner: 0
       candle: 0
+      bed: 0
   cauldron:
     # Set the maximum amount of items that can be bleached at once by throwing them into a cauldron (smaller stacks will also be possible). Set to 0 to disable.
     ## Please note that the maximum amount will be bounded by the stack size of the material type (e.g. a maximum of 16 banners can be bleached at once)!
@@ -52,6 +55,7 @@ bleaching:
       carpet: 0
       banner: 0
       candle: 64
+      bed: 1
     # check_empty checks the waterlevel of a cauldron.
     ## If set to 0: players will be able to undye items in any cauldron.
     ## If set to 1: players will be able to undye items in non empty cauldrons.
