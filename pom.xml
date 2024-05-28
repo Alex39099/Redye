@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
-  ~ Copyright (C) 2018-2023 Alexander Schmid
+  ~ Copyright (C) 2018-2024 Alexander Schmid
   ~
   ~     This program is free software: you can redistribute it and/or modify
   ~     it under the terms of the GNU General Public License as published by
@@ -37,8 +37,9 @@
     <packaging>pom</packaging>
     <properties>
         <buildNo/>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <maven.compiler.release>21</maven.compiler.release>
     </properties>
 
     <repositories>
