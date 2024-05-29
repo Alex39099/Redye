@@ -26,10 +26,10 @@
     <artifactId>redye-parent</artifactId>
     <version>3.6.0</version>
     <modules>
-        <module>redye_core</module>
-        <module>redye_dist</module>
-        <module>redye_craftbukkit_1_13_R2</module>
-        <module>redye_craftbukkit_1_16_R3</module>
+        <module>redye-core</module>
+        <module>redye-dist</module>
+        <module>redye-internals_1_13_2</module>
+        <module>redye-internals_1_16_5</module>
     </modules>
     <name>Redye</name>
     <url>https://www.spigotmc.org/members/alex_qp.306806/</url>
