@@ -78,7 +78,7 @@ public class RedyeMaterial {
     }
 
     public boolean hasUndyeMatName() {
-        return !this.getUndyeMatName().equals("");
+        return !this.getUndyeMatName().isEmpty();
     }
 
     public RedyeMaterial copy() {
