@@ -77,8 +77,6 @@ public class Redye extends JavaPlugin implements Debugable {
             return "Internals_v1_13_2";
         } else if (minecraftVersion.startsWith("1.14") || minecraftVersion.startsWith("1.15") || minecraftVersion.startsWith("1.16")) {
             return "Internals_v1_16_5";
-        } else if (minecraftVersion.equals("1.20.6")) {
-            return "Internals_v1_20_6";
         }
         return defaultInternalsVersion;
     }
