@@ -51,7 +51,7 @@ public class Redye extends JavaPlugin implements Debugable {
         return false;
     }
 
-    private static final String defaultInternalsVersion = "Internals_v1_20_7";
+    private static final String defaultInternalsVersion = "Internals_v1_20_6";
     private static InternalsProvider internals;
     static {
         try {
