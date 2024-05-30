@@ -24,7 +24,7 @@
 
     <groupId>me.alexqp</groupId>
     <artifactId>redye-parent</artifactId>
-    <version>3.7.0</version>
+    <version>3.7.1</version>
     <modules>
         <module>redye-core</module>
         <module>redye-dist</module>
@@ -37,9 +37,9 @@
     <packaging>pom</packaging>
     <properties>
         <buildNo/>
-        <maven.compiler.source>21</maven.compiler.source>
-        <maven.compiler.target>21</maven.compiler.target>
-        <maven.compiler.release>21</maven.compiler.release>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <maven.compiler.release>17</maven.compiler.release>
     </properties>
 
     <repositories>

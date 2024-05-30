@@ -23,7 +23,7 @@
     <parent>
         <artifactId>redye-parent</artifactId>
         <groupId>me.alexqp</groupId>
-        <version>3.7.0</version>
+        <version>3.7.1</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -55,7 +55,7 @@
         <dependency>
             <groupId>com.github.Alex39099</groupId>
             <artifactId>Commons</artifactId>
-            <version>1.11.1</version>
+            <version>1.11.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
